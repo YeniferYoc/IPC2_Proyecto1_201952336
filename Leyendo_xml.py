@@ -27,7 +27,7 @@ for piso in pisos:
     patrones = piso.getElementsByTagName('patron')
     lista_patrones = []
     for patron in patrones:
-        codigo_pat = patron.attributes['codigo'].value 
+        codigo_pat = patron.attributes['codigo'].value  
         patron_letras = patron.childNodes[0].data
         #print(codigo_pat)
         #print(patron.childNodes[0].data)

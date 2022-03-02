@@ -6,6 +6,7 @@ import Estructuras
 import Estructuras_patron
 import Estructuras_cuadritos
 from Celda import *
+from graphviz import Graph
 
 def menu():
     salir = False
@@ -13,12 +14,18 @@ def menu():
     piso_elegido = Piso(None,0,0,0.0,0.0,None)
     lista_celdas = Estructuras_cuadritos.ListaDoble_cuadritos()
     opcion_piso = 0
+    lista_celdas2 = Estructuras_cuadritos.ListaDoble_cuadritos()
+    objeto_patr_2 = Patron(0, None)
   
-    while salir != True:        
-        print("1. CARGAR DATOS")
-        print("2. MOSTRAR PISOS")
-        print("3. ELEGIR")
+    while salir != True:    
+        #AQUI ESTA EL MENU PRINCIPAL    
+        print("")
+        print("--------------------------------------------------------------------")
+        print("1. CARGAR XML")
+        print("2. MOSTRAR PISOS Y ELEGIR ")
+        print("3. ELEGIR NUEVO PATRON")
         print("4. SALIR")
+        print("--------------------------------------------------------------------")
         print("")
         opcion = int(input("DIGITE EL NUMERO DE LA OPCION CORRESPONDIENTE "))
         
@@ -26,7 +33,6 @@ def menu():
 
         if(opcion == 1):
             print("AQUI SE SELECCIONAN LOS DATOS ")
-
             doc = minidom.parse('mi_xml.xml')
             pisos = doc.getElementsByTagName("piso")
             for piso in pisos:
@@ -63,6 +69,7 @@ def menu():
 
             lista_pisos.imprimirLista()
 
+##########################################################################################################
         if(opcion == 2):
             print("")
             lista_pisos.imprimirLista()
@@ -165,12 +172,10 @@ def menu():
                 print(" ")
                 print("ESTA ES LA LISTA DE CELDAS")
                 lista_celdas.imprimirLista()
-                    
-                
-                
+                                
             
-            
-    
+##########################################################################################################
+
         if(opcion == 3):
             print("----------------------------- ELEGIR NUEVO PATRON ------------------------------")
             nodoTemp_opcion = Estructuras.Nodo("")
@@ -178,7 +183,7 @@ def menu():
             contador = 0
             opcion_patron = 0
 
-            while nodoTemp_opcion != None:
+            while nodoTemp_opcion != None: #jsjs
                 contador+=1
                 if contador ==  opcion_piso:
                     print("NOMBRE: "+nodoTemp_opcion.objeto_piso.nombre+" FILAS: "+str(nodoTemp_opcion.objeto_piso.filas)+" COLUMNAS: "+nodoTemp_opcion.objeto_piso.columnas)
@@ -203,6 +208,40 @@ def menu():
                                                                    
 
                 nodoTemp_opcion = nodoTemp_opcion.siguiente
+
+            
+            cadena_patron2 = str(objeto_patr_2.lista)
+            #CONVIERTO LA CADENA DEL PATRON ELEGIDO A UNA LISTA DE OBJETOS TIPO CELDA
+            contador_fila = 0
+            contador_col = 0
+            filas = int(piso_elegido.filas)
+            columnas = int(piso_elegido.columnas)
+            print("LLENANDO LISTA CELDAS")
+            
+            print("longitud cadena "+str(len(cadena_patron2)))
+            cadena_patron2 = cadena_patron2.replace(" ","")
+            cadena_patron2 = cadena_patron2.replace("\n","")
+            print(cadena_patron2)
+            print("longitud cadena "+str(len(cadena_patron2)))
+            for letra in cadena_patron2:
+                #print(letra)
+                if contador_fila < filas:
+                    if contador_col < columnas:
+                        nueva_celda = Celda(contador_fila, contador_col,letra)
+                        lista_celdas2.añadirNodo(nueva_celda)
+                        contador_col +=1
+                    else:
+                        contador_col = 0
+                        contador_fila += 1
+                        nueva_celda = Celda(contador_fila, contador_col,letra)
+                        lista_celdas2.añadirNodo(nueva_celda)
+                        contador_col += 1
+                
+            print(" ")
+            print("ESTA ES LA LISTA DE CELDAS")
+            lista_celdas2.imprimirLista()
+
+##########################################################################################################
 
         if(opcion == 4):
             print("ADIOS!!!! :)")
