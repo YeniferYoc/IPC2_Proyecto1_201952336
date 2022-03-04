@@ -1,10 +1,11 @@
-digraph Mio{
-    node[shape = box fillcolor = "#FFEDBB" style  = filled]
+digraph L{
+    node[shape = box fillcolor = "FFEDBB" style  = filled]
+    
     subgraph cluster_p{
         label= "MATRIZ DISERSA"
         bgcolor = "#398D9C"
         raiz[label = "0,0"]
         edge [dir = "both"]
-        
     }
 }
+

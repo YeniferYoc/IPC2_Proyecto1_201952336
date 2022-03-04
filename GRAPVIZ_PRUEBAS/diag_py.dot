@@ -1,4 +1,4 @@
-digraph L{
+diagraph Mio{
     node[shape = box fillcolor = "#FFEDBB" style  = filled]
     
     subgraph cluster_p{
@@ -61,10 +61,10 @@ digraph L{
         Columna5 ->nodo5_5;
         nodo2_4 ->nodo3_4;
         nodo3_4 ->nodo4_4;
+        
 
 
         
 
     }
 }
-

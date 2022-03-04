@@ -1,9 +1,0 @@
-digraph L{node[shape = box fillcolor = "#FFEDBB" style  = filled]subgraph cluster_p{label= "MATRIZ DISERSA"bgcolor = "#398D9C"edge [dir = "both"]celda1[label= "1", fillcolor = green, group = 2 ];celda2[label= "2", fillcolor = green, group = 2 ];celda3[label= "3", fillcolor = green, group = 2 ];celda4[label= "4", fillcolor = green, group = 2 ];celda5[label= "5", fillcolor = green, group = 2 ];celda6[label= "6", fillcolor = green, group = 2 ];celda7[label= "7", fillcolor = green, group = 2 ];celda8[label= "8", fillcolor = green, group = 2 ];celda9[label= "9", fillcolor = green, group = 2 ];celda10[label= "10", fillcolor = green, group = 2 ];celda11[label= "11", fillcolor = green, group = 2 ];celda12[label= "12", fillcolor = green, group = 2 ];celda13[label= "13", fillcolor = green, group = 2 ];celda14[label= "14", fillcolor = green, group = 2 ];celda15[label= "15", fillcolor = green, group = 2 ];celda16[label= "16", fillcolor = green, group = 2 ];celda17[label= "17", fillcolor = green, group = 2 ];celda18[label= "18", fillcolor = green, group = 2 ];celda19[label= "19", fillcolor = green, group = 2 ];celda20[label= "20", fillcolor = green, group = 2 ];celda1->celda2;celda2->celda3;celda3->celda4;celda4->celda5;celda6->celda7;celda7->celda8;celda8->celda9;celda9->celda10;celda11->celda12;celda12->celda13;celda13->celda14;celda14->celda15;celda16->celda17;celda17->celda18;celda18->celda19;celda19->celda20;
-{rank = same;celda1;celda2;celda3;celda4;celda5};
-{rank = same;celda6;celda7;celda8;celda9;celda10};
-{rank = same;celda11;celda12;celda13;celda14;celda15};
-{rank = same;celda16;celda17;celda18;celda19;celda20}
-
-
-}
-}
