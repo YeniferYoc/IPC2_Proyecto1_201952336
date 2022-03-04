@@ -7,15 +7,25 @@ import Estructuras_patron
 import Estructuras_cuadritos
 from Celda import *
 from graphviz import Graph
+from os import startfile
+import graphviz
+from os import system
+
+
+lista_pisos = Estructuras.ListaDoble()
+piso_elegido = Piso(None,0,0,0.0,0.0,None)
+lista_celdas = Estructuras_cuadritos.ListaDoble_cuadritos()
+opcion_piso = 0
+lista_celdas2 = Estructuras_cuadritos.ListaDoble_cuadritos()
+objeto_patr_2 = Patron(0, None)
+lista_cambiar = Estructuras_cuadritos.ListaDoble_cuadritos()
+contador_cambios = 0
+controlador = [0, None]
+
+patron_final = Estructuras_cuadritos.ListaDoble_cuadritos()
 
 def menu():
     salir = False
-    lista_pisos = Estructuras.ListaDoble()
-    piso_elegido = Piso(None,0,0,0.0,0.0,None)
-    lista_celdas = Estructuras_cuadritos.ListaDoble_cuadritos()
-    opcion_piso = 0
-    lista_celdas2 = Estructuras_cuadritos.ListaDoble_cuadritos()
-    objeto_patr_2 = Patron(0, None)
   
     while salir != True:    
         #AQUI ESTA EL MENU PRINCIPAL    
@@ -23,14 +33,16 @@ def menu():
         print("--------------------------------------------------------------------")
         print("1. CARGAR XML")
         print("2. MOSTRAR PISOS Y ELEGIR ")
-        print("3. ELEGIR NUEVO PATRON")
-        print("4. SALIR")
+        print("3. VER PATRON ELEGIDO")
+        print("4. ELEGIR NUEVO PATRON")
+        print("5. REALIZAR CAMBIOS")
+        print("6. VER NUEVO PATRON")
+        print("7. SALIR")
         print("--------------------------------------------------------------------")
         print("")
         opcion = int(input("DIGITE EL NUMERO DE LA OPCION CORRESPONDIENTE "))
         
         
-
         if(opcion == 1):
             print("AQUI SE SELECCIONAN LOS DATOS ")
             doc = minidom.parse('mi_xml.xml')
@@ -45,12 +57,6 @@ def menu():
                 columna = C.firstChild.data
                 volteo = F.firstChild.data
                 intercambio = S.firstChild.data
-
-                #print("nombre:%s " % nombre)
-                #print("R:%s" % R.firstChild.data)
-                #print("C:%s" % C.firstChild.data)
-                #print("F:%s" % F.firstChild.data)
-                #print("S:%s" % S.firstChild.data)
 
                 patrones = piso.getElementsByTagName('patron')
                 lista_patrones = Estructuras_patron.ListaDoble_patron()
@@ -70,6 +76,7 @@ def menu():
             lista_pisos.imprimirLista()
 
 ##########################################################################################################
+        
         if(opcion == 2):
             print("")
             lista_pisos.imprimirLista()
@@ -172,11 +179,85 @@ def menu():
                 print(" ")
                 print("ESTA ES LA LISTA DE CELDAS")
                 lista_celdas.imprimirLista()
-                                
+
+#########################################################################################################
+                        
+        if(opcion == 3):
+            print("VER PATRON ELEGIDO ")
+            filas = int(piso_elegido.filas)
+            columnas = int(piso_elegido.columnas)
+            codigo_patron = str(piso_elegido.patrones.codigo)
+
+            mi_archivo= open('patron_elegido1_1.dot','w')
+            mi_archivo.write("digraph L{")
+            mi_archivo.write("node[shape = box fillcolor = \"#FFEDBB\" style  = filled]")
+            mi_archivo.write("subgraph cluster_p{")
+            mi_archivo.write("label= \"PATRON "+codigo_patron+"\"")
+            mi_archivo.write("bgcolor = \"#398D9C\"")
+            mi_archivo.write("edge [dir = \"both\"]")
+            celda="celda"
+            contador = 1 
+            mensaje =''
+            print("*** Imprimiendo Celdas ***")
+            nodoTemporal = Estructuras_cuadritos.Nodo("")
+
+            nodoTemporal = lista_celdas.head
+            
+        
+            for i in range(filas):
+                for j in range(columnas):
+                    mensaje =str(celda+str(contador))
+                    color_celda = str(nodoTemporal.objeto_celda.color)
+                    if color_celda.upper() == 'B':
+                        color_celda = 'black'
+                    if color_celda.upper() == 'W':
+                        color_celda = 'white'
+                    nodoTemporal = nodoTemporal.siguiente
+                    mi_archivo.write(mensaje+"[label= \""+str(contador)+"\", fillcolor ="+color_celda+", group = 2 ];")
+                    contador += 1 
+
+            total_celdas = filas* columnas
+            
+            mensaje = ''
+            for j in range(1, total_celdas-filas+1, columnas):
+                contador2 = j
+                for i in range(1,columnas,1):
+                    mensaje =str(celda+str(contador2))
+                    sig_fila = str(celda+str(contador2+1))
+                    mi_archivo.write(mensaje+"->"+sig_fila+";")
+                    contador2+=1
+            
+            for j in range(1, total_celdas-filas+1, columnas):
+                contador2 = j
+                mi_archivo.write("{rank = same;")
+                for i in range(1,columnas+1,1):
+                    mensaje =str(celda+str(contador2))
+                    mi_archivo.write(mensaje+";")
+                    contador2+=1
+
+                mi_archivo.write("}")
+
+            
+            
+            for j in range(1, columnas+1, 1):
+                for i in range(j,total_celdas-columnas+1,columnas):
+                    mensaje =str(celda+str(i))
+                    sig_fila = str(celda+str(i+columnas))
+                    mi_archivo.write(mensaje+"->"+sig_fila+";")
+            
+
+            mi_archivo.write("}")
+            mi_archivo.write("}")
+
+            mi_archivo.close()
+
+            system('dot -Tpng patron_elegido1_1.dot -o patron_elegido1_1.png')
+            system('cd./patron_elegido1_1.png')
+            startfile('patron_elegido1_1.png')
             
 ##########################################################################################################
 
-        if(opcion == 3):
+        if(opcion == 4):
             print("----------------------------- ELEGIR NUEVO PATRON ------------------------------")
             nodoTemp_opcion = Estructuras.Nodo("")
             nodoTemp_opcion = lista_pisos.head
@@ -242,10 +323,238 @@ def menu():
             lista_celdas2.imprimirLista()
 
 ##########################################################################################################
+        if(opcion == 5):
+            print("REALIZAR CAMBIOS")
 
-        if(opcion == 4):
-            print("ADIOS!!!! :)")
+            precio_volteo = piso_elegido.volteo
+            precio_inter = piso_elegido.intercambio
+            costo_total = 0
+            
+            retorno = Comparar_patrones(lista_celdas, lista_celdas2)
+            lista_cambiar = retorno[1]
+            lista_cambiar.imprimirLista()
+            contador_cambios =  retorno[0]
+
+
+            if contador_cambios == 0 :
+                print("NO HAY CAMBIOS POR REALIZAR, ENTONCES EL PATRON FINAL ES: ")
+                patron_final = lista_celdas
+                patron_final.imprimirLista()
+                print("EL COSTO TOTAL ES: "+str(costo_total))
+            
+            else: 
+                if precio_volteo >= precio_inter: #intentamos no usar mucho volteo 
+                    print("INTENTAMOS USAR MAS EL INTERCAMBIO ")
+
+                    while contador_cambios != 0:
+                        #NODO QUE CONTIENE LA PRIMERA CELDA HALLADA DIFERENTE AL PATRON ELEGIDO
+                        nodo_cambios = Estructuras_cuadritos.Nodo("")
+                        nodo_cambios = lista_cambiar.head
+                        #PARA CAMBIAR EL NODO SE NECESITA CONOCER SU POSICION EXACTA 
+                        fila_err = nodo_cambios.objeto_celda.fil
+                        columna_err = nodo_cambios.objeto_celda.col
+                        #SE RECORRE LA LISTA DE CELDAS PARA BUSCAR EL NODO QUE SE ENCONTRO DIFERENTE
+                        #nodo_que_busca = Estructuras_cuadritos.Nodo("")
+                        #nodo_que_busca = lista_celdas.head 
+
+                        #SI SOLO ES UN PISO EL DIFERENTE LO UNICO POR HACER ES VOLTEARLO SIN IMPORTAT EL PRECIO                    
+                        
+                        if contador_cambios == 1: 
+                            print("SOLO ES UN CAMBIO ENTONCES SE VOLTEA EL PÍSO QUE ESTA EN LA POSICION: "+str(fila_err)+" , "+str(columna_err))
+                            #SE BUSCA EÑ NODO A CAMBIAR PRIIMERO SE RECORRE LA LISTA
+                            patron_final=Volteo(nodo_cambios,lista_celdas, fila_err, columna_err)
+                            print("OBSERVE LOS CAMBIOS REALIZADOS")
+                            patron_final.imprimirLista()
+                            costo_total += precio_volteo
+                            '''
+                            while nodo_que_busca != None:
+                                if nodo_que_busca.objeto_celda.fil == fila_err and nodo_que_busca.objeto_celda.col == columna_err:
+                                    color = nodo_cambios.objeto_celda.color
+                                    if color.upper() == 'B':
+                                        nodo_cambios.objeto_celda.color = 'W'
+                                    else:
+                                        nodo_cambios.objeto_celda.color = 'B'
+                                        nodo_que_busca = nodo_que_busca.siguiente
+                                        '''
+                        
+                        else:#SI HAY MAS DE UN CAMBIO, ENTONCES SE EVALUA EL COSTO DE INTERCAMBIO Y VOLTEO
+                            if precio_volteo >= precio_inter: #intentamos no usar mucho volteo 
+                                print("INTENTAMOS USAR MAS EL INTERCAMBIO ")
+                                
+                                while contador_cambios != 0:
+                                    lista_cambiar = Comparar_patrones(lista_celdas, lista_celdas2)
+                                    lista_cambiar.imprimirLista()
+
+                                    
+                                    temp_cambiar = Estructuras_cuadritos.Nodo("")
+                                    temp_cambiar = lista_cambiar.head
+                                    temp_recorrer = Estructuras_cuadritos.Nodo("")
+                                    temp_recorrer = temp_cambiar.siguiente
+
+                                    #while temp_recorrer
+
+                    #HAGO QUE VUELVA A COMPARAR LOS PATRONES PARA SEGUIR CAMBIANDO O FINALIZAR EL CICLO
+                    retorno = Comparar_patrones(lista_celdas, lista_celdas2)
+                    lista_cambiar = retorno[1]
+                    print("ESTO ES LO QUE HAY QUE CAMBIAR")
+                    lista_cambiar.imprimirLista()
+                    contador_cambios =  retorno[0]
+                        
+            
+            print("")
+            print("----------------------------------------------------------------------------------")
+            print("")
+            print("IMPRIMIR PATRON FINAL")
+            patron_final.imprimirLista()      
+
+            '''
+            if precio_volteo >= precio_inter: #intentamos no usar mucho volteo 
+                print("INTENTAMOS USAR MAS EL INTERCAMBIO ")
+                while contador_cambios != 0:
+                    lista_cambiar = Comparar_patrones(lista_celdas, lista_celdas2)
+                    lista_cambiar.imprimirLista()
+
+                    
+                    temp_cambiar = Estructuras_cuadritos.Nodo("")
+                    temp_cambiar = lista_cambiar.head
+                    temp_recorrer = Estructuras_cuadritos.Nodo("")
+                    temp_recorrer = temp_cambiar.siguiente
+
+                    while temp_recorrer
+            '''
+
+##########################################################################################################
+
+        if(opcion == 6):
+            print("VER NUEVO PATRON")
             salir = True
+
+##########################################################################################################
+
+        if(opcion == 7):
+            print("ADIOS!!!! :)")
+            salir = True 
+
+
+
+def Generar_graphviz():    
+    filas = int(piso_elegido.filas)
+    columnas = int(piso_elegido.columnas)
+    codigo_patron = str(piso_elegido.patrones)
+
+    mi_archivo= open('patron_elegido1_1.dot','w')
+    mi_archivo.write("digraph L{")
+    mi_archivo.write("node[shape = box fillcolor = \"#FFEDBB\" style  = filled]")
+    mi_archivo.write("subgraph cluster_p{")
+    mi_archivo.write("label= \"PATRON"+codigo_patron+"\"")
+    mi_archivo.write("bgcolor = \"#398D9C\"")
+    mi_archivo.write("edge [dir = \"both\"]")
+    celda="celda"
+    contador = 1 
+    mensaje =''
+    print("*** Imprimiendo Celdas ***")
+    nodoTemporal = Estructuras_cuadritos.Nodo("")
+
+    nodoTemporal = lista_celdas.head
+    
+ 
+    for i in range(filas):
+        for j in range(columnas):
+            mensaje =str(celda+str(contador))
+            color_celda = str(nodoTemporal.objeto_celda.color)
+            if color_celda.upper() == 'B':
+                color_celda = 'black'
+            if color_celda.upper() == 'W':
+                color_celda = 'white'
+            nodoTemporal = nodoTemporal.siguiente
+            mi_archivo.write(mensaje+"[label= \""+str(contador)+"\", fillcolor ="+color_celda+", group = 2 ];")
+            contador += 1 
+
+    total_celdas = filas* columnas
+    
+    mensaje = ''
+    for j in range(1, total_celdas-filas+1, columnas):
+        contador2 = j
+        for i in range(1,columnas,1):
+            mensaje =str(celda+str(contador2))
+            sig_fila = str(celda+str(contador2+1))
+            mi_archivo.write(mensaje+"->"+sig_fila+";")
+            contador2+=1
+    
+    for j in range(1, total_celdas-filas+1, columnas):
+        contador2 = j
+        mi_archivo.write("{rank = same;")
+        for i in range(1,columnas+1,1):
+            mensaje =str(celda+str(contador2))
+            mi_archivo.write(mensaje+";")
+            contador2+=1
+
+        mi_archivo.write("}")
+
+    
+    
+    for j in range(1, columnas+1, 1):
+        for i in range(j,total_celdas-columnas+1,columnas):
+            mensaje =str(celda+str(i))
+            sig_fila = str(celda+str(i+columnas))
+            mi_archivo.write(mensaje+"->"+sig_fila+";")
+    
+
+    mi_archivo.write("}")
+    mi_archivo.write("}")
+
+    mi_archivo.close()
+
+    system('dot -Tpng patron_elegido1_1.dot -o patron_elegido1_1.png')
+    system('cd./patron_elegido1_1.png')
+    startfile('patron_elegido1_1.png')
+
+def Comparar_patrones(lista1, lista2):
+    lista_cambiar = Estructuras_cuadritos.ListaDoble_cuadritos()
+    nodo_tem_celd_pat1 = Estructuras_cuadritos.Nodo("")
+    nodo_tem_celd_pat1 = lista1.head
+
+    nodo_tem_celd_pat2 = Estructuras_cuadritos.Nodo("")
+    nodo_tem_celd_pat2 = lista2.head
+
+    contador_cambios = 0
+    while nodo_tem_celd_pat1 != None:
+        color1 = str(nodo_tem_celd_pat1.objeto_celda.color)
+        color2 = nodo_tem_celd_pat2.objeto_celda.color 
+            
+        if  color1 == color2 :
+            pass
+        else:
+           contador_cambios += 1
+           nueva_celda = nodo_tem_celd_pat1.objeto_celda
+           lista_cambiar.añadirNodo(nueva_celda) 
+
+        nodo_tem_celd_pat1 = nodo_tem_celd_pat1.siguiente
+        nodo_tem_celd_pat2 = nodo_tem_celd_pat2.siguiente
+    
+    print("LA CANTIDAD DE CUADROS A CORREGIR ES: "+str(contador_cambios))
+    print(contador_cambios)
+    controlador[0] = contador_cambios
+    controlador[1] = lista_cambiar
+    return controlador
+    
+def Volteo(nodo_diferente, lista_orignal, fila, columna):
+    nodo_que_busca = Estructuras_cuadritos.Nodo("")
+    nodo_que_busca = lista_orignal.head
+    #SE BUSCA EÑ NODO A CAMBIAR PRIIMERO SE RECORRE LA LISTA
+    while nodo_que_busca != None:
+        if nodo_que_busca.objeto_celda.fil == fila and nodo_que_busca.objeto_celda.col == columna:
+            color = nodo_diferente.objeto_celda.color
+            if color.upper() == 'B':
+                nodo_diferente.objeto_celda.color = 'W'
+            else:
+                nodo_diferente.objeto_celda.color = 'B'
+        nodo_que_busca = nodo_que_busca.siguiente
+    return lista_orignal
+    
+def Intercambio():
+    pass
+    
 
 def main(): #METODO PRINCIPAL QUE INVOCA AL MENU2 
     menu()
