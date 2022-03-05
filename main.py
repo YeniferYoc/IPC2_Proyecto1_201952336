@@ -325,28 +325,28 @@ def menu():
 ##########################################################################################################
         if(opcion == 5):
             print("REALIZAR CAMBIOS")
+            #DETERMINO LOS PRECIOS PARA ENCONTRAR LA SOLUCION MAS ECONOMICA 
+            precio_volteo = 1000#int(piso_elegido.volteo)
+            precio_inter = 1#int(piso_elegido.intercambio)
+            costo_total = 0 #EL COSTO TOTAL SE VA A AUMENTAR CON CADA ACCION 
+            #HACEMOS LA PRIMERA EVALUACION DE CAMBIOS
 
-            precio_volteo = piso_elegido.volteo
-            precio_inter = piso_elegido.intercambio
-            costo_total = 0
-            
             retorno = Comparar_patrones(lista_celdas, lista_celdas2)
             lista_cambiar = retorno[1]
             lista_cambiar.imprimirLista()
-            contador_cambios =  retorno[0]
-
-
-            if contador_cambios == 0 :
+            contador_cambios =  retorno[0]#LLEVA EL CONTEO DE LAS CASILLAS DIFERENTES ENTRE
+            #EL PATRON INICIAL Y EL NUEVO PATTRON
+            #POSIBILIDADS DE CAMBIO
+            if contador_cambios == 0 : #SINO HAY CASILLAS DIFERENTES ENTONCES EL PATRON FINAL ES IGUAL AL ORIGINAL
                 print("NO HAY CAMBIOS POR REALIZAR, ENTONCES EL PATRON FINAL ES: ")
-                patron_final = lista_celdas
+                patron_final = lista_celdas 
                 patron_final.imprimirLista()
                 print("EL COSTO TOTAL ES: "+str(costo_total))
             
-            else: 
+            else: #SI SI HAY CASILLAS DIFERENTES O ERRONEAS 
                 if precio_volteo >= precio_inter: #intentamos no usar mucho volteo 
                     print("INTENTAMOS USAR MAS EL INTERCAMBIO ")
-
-                    while contador_cambios != 0:
+                    while contador_cambios != 0: #MIENTRAS CONTADOR NO SEA 0 ENTONCES QUE SIGA CAMNIANDO
                         #NODO QUE CONTIENE LA PRIMERA CELDA HALLADA DIFERENTE AL PATRON ELEGIDO
                         nodo_cambios = Estructuras_cuadritos.Nodo("")
                         nodo_cambios = lista_cambiar.head
@@ -354,11 +354,10 @@ def menu():
                         fila_err = nodo_cambios.objeto_celda.fil
                         columna_err = nodo_cambios.objeto_celda.col
                         #SE RECORRE LA LISTA DE CELDAS PARA BUSCAR EL NODO QUE SE ENCONTRO DIFERENTE
-                        #nodo_que_busca = Estructuras_cuadritos.Nodo("")
-                        #nodo_que_busca = lista_celdas.head 
+                        nodo_que_busca = Estructuras_cuadritos.Nodo("")
+                        nodo_que_busca = lista_celdas.head 
 
                         #SI SOLO ES UN PISO EL DIFERENTE LO UNICO POR HACER ES VOLTEARLO SIN IMPORTAT EL PRECIO                    
-                        
                         if contador_cambios == 1: 
                             print("SOLO ES UN CAMBIO ENTONCES SE VOLTEA EL PÍSO QUE ESTA EN LA POSICION: "+str(fila_err)+" , "+str(columna_err))
                             #SE BUSCA EÑ NODO A CAMBIAR PRIIMERO SE RECORRE LA LISTA
@@ -366,62 +365,106 @@ def menu():
                             print("OBSERVE LOS CAMBIOS REALIZADOS")
                             patron_final.imprimirLista()
                             costo_total += precio_volteo
-                            '''
-                            while nodo_que_busca != None:
-                                if nodo_que_busca.objeto_celda.fil == fila_err and nodo_que_busca.objeto_celda.col == columna_err:
-                                    color = nodo_cambios.objeto_celda.color
-                                    if color.upper() == 'B':
-                                        nodo_cambios.objeto_celda.color = 'W'
-                                    else:
-                                        nodo_cambios.objeto_celda.color = 'B'
-                                        nodo_que_busca = nodo_que_busca.siguiente
-                                        '''
                         
-                        else:#SI HAY MAS DE UN CAMBIO, ENTONCES SE EVALUA EL COSTO DE INTERCAMBIO Y VOLTEO
-                            if precio_volteo >= precio_inter: #intentamos no usar mucho volteo 
-                                print("INTENTAMOS USAR MAS EL INTERCAMBIO ")
+                        else:#SI HAY MAS DE UN CAMBIO, ENTONCES SE EVALUA EL COSTO DE INTERCAMBIO Y VOLTEO  
+                            #INTENTAMOS EL INTERCAMBIO
+                            while nodo_que_busca != None:#BUSCAMOS EL NODO QUE ES DIFERENTE
                                 
-                                while contador_cambios != 0:
-                                    lista_cambiar = Comparar_patrones(lista_celdas, lista_celdas2)
-                                    lista_cambiar.imprimirLista()
-
+                                if nodo_que_busca.objeto_celda.fil == fila_err and nodo_que_busca.objeto_celda.col == columna_err:
+                                    color_lista_celdas1 = nodo_que_busca.objeto_celda.color
                                     
-                                    temp_cambiar = Estructuras_cuadritos.Nodo("")
-                                    temp_cambiar = lista_cambiar.head
-                                    temp_recorrer = Estructuras_cuadritos.Nodo("")
-                                    temp_recorrer = temp_cambiar.siguiente
+                                    if color_lista_celdas1 != nodo_cambios.siguiente.objeto_celda.color : #VEO LAS COORDENADAS DEL NODO SIGUIENTE QUE TEIEN LO QUE NECESITO
+                                        #AHORA BUSCAMOS EL NODO CON SUS COORDENADAS
+                                        fila_siguiente = nodo_cambios.siguiente.objeto_celda.fil
+                                        columna_siguiente = nodo_cambios.siguiente.objeto_celda.col
+                                        #SI ESTA ENSEGUIDA A LA PAR
+                                        if columna_siguiente == (columna_err+1) and fila_siguiente == fila_err:
+                                            print("ESTA A LA PAR")
+                                            aux1 = nodo_que_busca.objeto_celda
+                                            aux2 = nodo_que_busca.siguiente.objeto_celda
+                                            nodo_que_busca.objeto_celda = aux2
+                                            nodo_que_busca.siguiente.objeto_celda = aux1
+                                            costo_total += precio_inter
+                                            patron_final = lista_celdas
+                                            patron_final.imprimirLista()
+                                            break
 
-                                    #while temp_recorrer
+                                        #SI ESTA ENSEGUIDA ABAJO
+                                        elif fila_siguiente == (fila_err+1) and columna_siguiente == columna_err:
+                                            print("ESTA ABAJO")
+                                            nodo_temp_abajo = Estructuras_cuadritos.Nodo("")
+                                            nodo_temp_abajo = lista_celdas.head
+                                            while nodo_temp_abajo != None:
+                                                if nodo_temp_abajo.objeto_celda.fil == fila_siguiente and nodo_temp_abajo.objeto_celda.col == columna_siguiente:
+                                                    aux1 = nodo_que_busca.objeto_celda
+                                                    aux2 = nodo_temp_abajo.objeto_celda
+                                                    nodo_que_busca.objeto_celda = aux2
+                                                    nodo_temp_abajo.objeto_celda = aux1
+                                                    costo_total += precio_inter
+                                                    patron_final = lista_celdas
+                                                    patron_final.imprimirLista()
+                                                    break
+                                                nodo_temp_abajo = nodo_temp_abajo.siguiente
+ 
+                                        #SI ESTA LEJOS ABAJO
+                                        elif fila_siguiente == (fila_err) :
+                                            print("ESTA A LA PAR PERO LEJOS")
+                                            #SE CREA UN NODO QUE AVANCE HACIA EL CAMBIO
+                                            calcular_precio = (columna_siguiente -columna_err)*precio_inter
+                                            print(calcular_precio)
+                                            print(2*precio_volteo)
+                                            if calcular_precio < (2*precio_volteo):
+                                                print("entro")
+                                                nodo_busca_par_lejos = Estructuras_cuadritos.Nodo("")
+                                                nodo_busca_par_lejos = lista_celdas.head
+                                                while nodo_busca_par_lejos != None: 
+                                                    if nodo_busca_par_lejos.objeto_celda.fil == fila_siguiente and nodo_busca_par_lejos.objeto_celda.col == columna_siguiente:
+                                                        aux1 = nodo_que_busca.objeto_celda
+                                                        aux2 = nodo_busca_par_lejos.objeto_celda
+                                                        nodo_que_busca.objeto_celda = aux2
+                                                        nodo_busca_par_lejos.objeto_celda = aux1
+                                                        costo_total += calcular_precio
+                                                        patron_final = lista_celdas
+                                                        patron_final.imprimirLista()
+                                                        break
+                                                    nodo_busca_par_lejos = nodo_busca_par_lejos.siguiente
+                                            else:
+                                                patron_final=Volteo(nodo_cambios,lista_celdas, fila_err, columna_err)
+                                                print("OBSERVE LOS CAMBIOS REALIZADOS")
+                                                patron_final.imprimirLista()
+                                                costo_total += precio_volteo
+                                                patron_final=Volteo(nodo_cambios.siguiente,lista_celdas, fila_siguiente, columna_siguiente)
+                                                print("SIGUIENTE VOLTEO")
+                                                patron_final.imprimirLista()
+                                                costo_total += precio_volteo
+                                                break
 
-                    #HAGO QUE VUELVA A COMPARAR LOS PATRONES PARA SEGUIR CAMBIANDO O FINALIZAR EL CICLO
-                    retorno = Comparar_patrones(lista_celdas, lista_celdas2)
-                    lista_cambiar = retorno[1]
-                    print("ESTO ES LO QUE HAY QUE CAMBIAR")
-                    lista_cambiar.imprimirLista()
-                    contador_cambios =  retorno[0]
+                                        elif columna_siguiente == (columna_err):
+                                            print("ESTA ABAJO PERO LEJOS")
+                                        #SI ESTA LEJOS ARRIBA
+                                        break
+                                    else:
+                                        print("no me sirve")
+
+                                nodo_que_busca = nodo_que_busca.siguiente
+                                break
+
+                            #BUSCAMOS EL NODO QUE ESTA MAL
+
+
+                        #HAGO QUE VUELVA A COMPARAR LOS PATRONES PARA SEGUIR CAMBIANDO O FINALIZAR EL CICLO
+                        retorno = Comparar_patrones(lista_celdas, lista_celdas2)
+                        lista_cambiar = retorno[1]
+                        print("ESTO ES LO QUE HAY QUE CAMBIAR")
+                        lista_cambiar.imprimirLista()
+                        contador_cambios =  retorno[0]
                         
             
             print("")
             print("----------------------------------------------------------------------------------")
-            print("")
+            print("COSTO POR TODO: Q. "   +str(costo_total))
             print("IMPRIMIR PATRON FINAL")
             patron_final.imprimirLista()      
-
-            '''
-            if precio_volteo >= precio_inter: #intentamos no usar mucho volteo 
-                print("INTENTAMOS USAR MAS EL INTERCAMBIO ")
-                while contador_cambios != 0:
-                    lista_cambiar = Comparar_patrones(lista_celdas, lista_celdas2)
-                    lista_cambiar.imprimirLista()
-
-                    
-                    temp_cambiar = Estructuras_cuadritos.Nodo("")
-                    temp_cambiar = lista_cambiar.head
-                    temp_recorrer = Estructuras_cuadritos.Nodo("")
-                    temp_recorrer = temp_cambiar.siguiente
-
-                    while temp_recorrer
-            '''
 
 ##########################################################################################################
 
@@ -552,7 +595,7 @@ def Volteo(nodo_diferente, lista_orignal, fila, columna):
         nodo_que_busca = nodo_que_busca.siguiente
     return lista_orignal
     
-def Intercambio():
+def Intercambio_siguiente():
     pass
     
 
