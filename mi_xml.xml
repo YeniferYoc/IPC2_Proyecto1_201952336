@@ -24,15 +24,15 @@
                 WBBBWBWWW
             </patron>
             <patron codigo="cod22"> 
-                WWWWBWWWB
+                WBBBWBWWW
             </patron>
         </patrones>
     </piso>
     <piso nombre="ejemplo03">
         <R> 1 </R>
         <C> 5 </C>
-        <F> 1000 </F>
-        <S> 1 </S>
+        <F> 1 </F>
+        <S> 1000 </S>
         <patrones>
             <patron codigo="cod31">         
                 WBBBB
@@ -41,8 +41,9 @@
                 BBBWW
             </patron>
             <patron codigo="cod33"> 
-                BBBWd
+                BBBWB
             </patron>
         </patrones>
     </piso>
+    
 </pisosArtesanales>

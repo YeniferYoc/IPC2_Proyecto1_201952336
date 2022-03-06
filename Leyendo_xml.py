@@ -27,7 +27,8 @@ for piso in pisos:
     patrones = piso.getElementsByTagName('patron')
     lista_patrones = []
     for patron in patrones:
-        codigo_pat = patron.attributes['codigo'].value  
+        codigo_pat = patron.attributes['codigo'].value 
+        print(codigo_pat) 
         patron_letras = patron.childNodes[0].data
         #print(codigo_pat)
         #print(patron.childNodes[0].data)
@@ -35,7 +36,7 @@ for piso in pisos:
         lista_patrones.append(patron_nuevo)
 
     piso_nuevo = Piso(nombre, fila, columna, volteo, intercambio, lista_patrones)
-    piso_nuevo.mostrar_piso()
+    #piso_nuevo.mostrar_piso()
     lista_pisos.append(piso_nuevo)
     
 

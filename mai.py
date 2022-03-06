@@ -1,3 +1,4 @@
+from numpy import absolute
 import interc
 
 listaDoble = interc.ListaDoble()
@@ -20,3 +21,6 @@ if __name__ == '__main__':
     listaDoble.imprimirLista()
     print("***  Espacio  ***")
     #y cualquier otra instrucción
+
+
+    print(absolute(-4))
