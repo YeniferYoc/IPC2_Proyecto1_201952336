@@ -7,10 +7,10 @@
         <S> 1 </S>
         <patrones>
             <patron codigo="cod11"> 
-                BWWBWWWW
+                WBWBWWWB
             </patron>
             <patron codigo="cod12"> 
-                WWWBBWWB
+                BWBWWWWW
             </patron>
         </patrones>
     </piso>

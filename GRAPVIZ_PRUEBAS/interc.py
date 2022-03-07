@@ -55,7 +55,42 @@ class ListaDoble:
 
         print("*** Lista Terminada ***")
 
-    def borrarNodo(self, dato):
+    def borrarNodo(self, lista):
+        #creamos un nodo temporal
+        nodoTemporal = Nodo("")
+        nodoTemporal = self.head
+
+        
+        #Mientras que el temporal no sea nulo
+        while nodoTemporal != None:
+            print("Borrando dato en la cabeza")
+            self.head = self.head.siguiente
+            nodoTemporal.siguiente = None
+            self.head.anterior = None
+
+            nodoTemporal = nodoTemporal.siguiente
+
+
+    def intercambio(self, dato): 
+        nodoTemporal = Nodo("")
+
+        #el temporal empieza en la cabeza
+        nodoTemporal = self.head
+
+        #Mientras que el temporal no sea nulo
+       
+            #validamos si ese nodo es el que busco
+        if nodoTemporal.dato == dato:
+
+             #Si ese nodo es la cabeza
+            if nodoTemporal == self.head:
+                aux1 = self.head.dato
+                aux2 = self.head.siguiente.dato
+
+                self.head.dato = aux2
+                self.head.siguiente.dato = aux1
+    
+    def borrarNodos(self, dato):
         #creamos un nodo temporal
         nodoTemporal = Nodo("")
 
@@ -88,25 +123,3 @@ class ListaDoble:
                     nodoTemporal.siguiente = nodoTemporal.anterior = None
 
             nodoTemporal = nodoTemporal.siguiente
-
-
-    def intercambio(self, dato): 
-        nodoTemporal = Nodo("")
-
-        #el temporal empieza en la cabeza
-        nodoTemporal = self.head
-
-        #Mientras que el temporal no sea nulo
-       
-            #validamos si ese nodo es el que busco
-        if nodoTemporal.dato == dato:
-
-             #Si ese nodo es la cabeza
-            if nodoTemporal == self.head:
-                aux1 = self.head.dato
-                aux2 = self.head.siguiente.dato
-
-                self.head.dato = aux2
-                self.head.siguiente.dato = aux1
-                    
-         

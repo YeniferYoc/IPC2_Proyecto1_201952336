@@ -37,7 +37,8 @@ class ListaDoble:
 
 
     def imprimirLista(self):
-        print("*** Imprimiendo lista de pisos***")
+        print("--------------------------------------------------------------------------------")
+        print("-------------------------------------- PISOS -----------------------------------")
         nodoTemporal = Nodo("")
 
         nodoTemporal = self.head
@@ -50,7 +51,7 @@ class ListaDoble:
 
             nodoTemporal = nodoTemporal.siguiente
 
-        print("*** Lista Terminada de pisos***")
+        print("--------------------------------------------------------------------------------")
 
     def imprimir_nombre_pisos(lista):
         nodoTemporal = Nodo("")
@@ -63,61 +64,7 @@ class ListaDoble:
 
             nodoTemporal = nodoTemporal.siguiente
 
-        print("*** Lista Terminada de pisos***")
+        print("")
+        print("")
 
-
-    def borrarNodo(self, dato):
-        #creamos un nodo temporal
-        nodoTemporal = Nodo("")
-
-        #el temporal empieza en la cabeza
-        nodoTemporal = self.head
-
-        #Mientras que el temporal no sea nulo
-        while nodoTemporal != None:
-
-            #validamos si ese nodo es el que busco
-            if nodoTemporal.dato == dato:
-
-                #Si ese nodo es la cabeza
-                if nodoTemporal == self.head:
-                    print("Borrando dato en la cabeza")
-                    self.head = self.head.siguiente
-                    nodoTemporal.siguiente = None
-                    self.head.anterior = None
-                #Si ese nodo es la cola
-                elif nodoTemporal == self.end:
-                    print("Borrando dato en la cola")
-                    self.end = self.end.anterior
-                    nodoTemporal.anterior = None
-                    self.end.siguiente = None
-                #Si no es ni la cola ni la cabeza
-                else:
-                    print("Borrando dato del medio")
-                    nodoTemporal.anterior.siguiente = nodoTemporal.siguiente
-                    nodoTemporal.siguiente.anterior = nodoTemporal.anterior
-                    nodoTemporal.siguiente = nodoTemporal.anterior = None
-
-            nodoTemporal = nodoTemporal.siguiente
-
-"""
-listaDoble = ListaDoble()
-listaDoble.añadirNodoPrincipio("Fresa")
-listaDoble.añadirNodoPrincipio("Vainilla")
-listaDoble.añadirNodoPrincipio("Chocolate")
-listaDoble.añadirNodoPrincipio("Pistacho")
-
-#listaDoble2 = Estructuras.ListaDoble()
-#listaDoble2.añadirNodoFinal("Fresa")
-#listaDoble2.añadirNodoFinal("Vainilla")
-#listaDoble2.añadirNodoFinal("Chocolate")
-#listaDoble2.añadirNodoFinal("Pistacho")
-
-if __name__ == '__main__':
-    listaDoble.imprimirLista()
-    print("***  Espacio  ***")
-    listaDoble.borrarNodo("Vainilla")
-    listaDoble.imprimirLista()
-    print("***  Espacio  ***")
-    #y cualquier otra instrucción
-"""
+    

@@ -24,7 +24,7 @@ class ListaDoble_cuadritos:
 
 
     def imprimirLista(self):
-        print("*** Imprimiendo Celdas ***")
+        print("--------------------------------------------------------------------------------")
         nodoTemporal = Nodo("")
 
         nodoTemporal = self.head
@@ -34,39 +34,4 @@ class ListaDoble_cuadritos:
             print("Nodo: "+str(contador)+" FILA -> "+str(nodoTemporal.objeto_celda.fil)+" COLUMNA -> "+str(nodoTemporal.objeto_celda.col)+" COLOR -> "+str(nodoTemporal.objeto_celda.color))
             nodoTemporal = nodoTemporal.siguiente
 
-        print("*** Lista Terminada de patrones ***")
-
-    def borrarNodo(self, dato):
-        #creamos un nodo temporal
-        nodoTemporal = Nodo("")
-
-        #el temporal empieza en la cabeza
-        nodoTemporal = self.head
-
-        #Mientras que el temporal no sea nulo
-        while nodoTemporal != None:
-
-            #validamos si ese nodo es el que busco
-            if nodoTemporal.dato == dato:
-
-                #Si ese nodo es la cabeza
-                if nodoTemporal == self.head:
-                    print("Borrando dato en la cabeza")
-                    self.head = self.head.siguiente
-                    nodoTemporal.siguiente = None
-                    self.head.anterior = None
-                #Si ese nodo es la cola
-                elif nodoTemporal == self.end:
-                    print("Borrando dato en la cola")
-                    self.end = self.end.anterior
-                    nodoTemporal.anterior = None
-                    self.end.siguiente = None
-                #Si no es ni la cola ni la cabeza
-                else:
-                    print("Borrando dato del medio")
-                    nodoTemporal.anterior.siguiente = nodoTemporal.siguiente
-                    nodoTemporal.siguiente.anterior = nodoTemporal.anterior
-                    nodoTemporal.siguiente = nodoTemporal.anterior = None
-
-            nodoTemporal = nodoTemporal.siguiente
-
+        print("--------------------------------------------------------------------------------")

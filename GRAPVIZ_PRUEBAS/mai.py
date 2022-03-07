@@ -17,7 +17,12 @@ if __name__ == '__main__':
     listaDoble.imprimirLista()
     print("***  Espacio  ***")
     #listaDoble.borrarNodo("Vainilla")
-    listaDoble.intercambio("Pistacho")
+    nodo_temporal = interc.Nodo("")
+    nodo_temporal = listaDoble.head
+    while nodo_temporal != None :
+        listaDoble.borrarNodo(listaDoble)
+        print("Eme")
+        nodo_temporal = nodo_temporal.siguiente
     listaDoble.imprimirLista()
     print("***  Espacio  ***")
     #y cualquier otra instrucción
