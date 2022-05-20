@@ -13,13 +13,12 @@ class ListaDoble:
     def añadirNodoPrincipio(self, obj_piso):
         nuevoNodo = Nodo(obj_piso)
 
-        #Validamos si la lista esta vacia
+
         if self.head == None:
            # print("Ingresando nodo con lista vacia")
             self.head = nuevoNodo
             self.end = nuevoNodo
         
-        #Si por lo menos hay un nodo, insertamos al inicio
         else:
             #print("*** ORDENANDO***")
             nodoTemporal = Nodo("")

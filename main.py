@@ -554,7 +554,7 @@ def menu():
                                         si_hay= False
 
                                         while nodo_busca_color_correcto != None:
-                                            if color_lista_celdas1 == nodo_busca_color_correcto.objeto_celda.color:
+                                            if color_lista_celdas1 != nodo_busca_color_correcto.objeto_celda.color:
                                                 precio_sig = (absolute(columna_siguiente-columna_err)+(fila_siguiente-fila_err))*precio_inter
                                                 if precio_sig < (precio_volteo):
                                                     si_hay =True
@@ -580,7 +580,7 @@ def menu():
                                             print("OBSERVE LOS CAMBIOS REALIZADOS")
                                             patron_final.imprimirLista()
                                             costo_total += precio_volteo
-
+                                        break
                                 nodo_que_busca = nodo_que_busca.siguiente
                                 
 
