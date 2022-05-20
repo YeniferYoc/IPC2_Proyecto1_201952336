@@ -3,7 +3,7 @@ YENIFER ESTER YOC LARIOS
 
 PROYECTO 1 IPC2, 
 
-Agregue el enunciado del proyecto, los archivos de calificacion y algunos resultados que arrojaron. 
+Agregue el enunciado del proyecto, los archivos de calificacion, hoja de calificación y algunos resultados que arrojaron. 
 Espero les sirva :)
 
 La empresa “Pisos Artesanales, S.A.” ha construido un azulejo especial con el que puede 
